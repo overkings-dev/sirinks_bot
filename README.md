@@ -2,9 +2,16 @@
 ## Можно запустить голосовой командой "ОКЕЙ, СИРИНКС, ФАРМ"
 ## Бот написан для всех, кто не хочет тратить время на беспонотовый фарм, но + 50 алмазов не помешают, пока вы готовите ужин
 Бот запускается командами:
+```python
  node .\sirinks_farm.js V
+ ```
+ ```python
  node .\sirinks_farm.js F
+ ```
+ ```python
  node .\sirinks_farm.js H
+ ```
+ 
  V - Vergerland (Zima1)
  F - Fiord (Zima2)
  H - Heimskringla (Zima3)
