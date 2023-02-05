@@ -12,6 +12,7 @@
  node .\sirinks_farm.js H
  ```
  Параметры:
+ 
  V - Vergerland (Zima1)
  
  F - Fiord (Zima2)
