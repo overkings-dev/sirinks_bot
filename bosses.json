@@ -1,0 +1,240 @@
+{
+	"bosses": [
+	{
+		"name": "BORGAR",
+		"mini_x": 1412,
+		"mini_y": 188,
+		"map_x": 850,
+		"map_y": 351,
+		"confirm_x": 1100,
+		"confirm_y": 220,
+		"delay": 9,
+		"portal_x": 1441,
+		"portal_y": 371
+	},
+
+	{
+		"name": "IRM",
+		"mini_x": 0,
+		"mini_y": 0,
+		"map_x": 0,
+		"map_y": 0,
+		"confirm_x": 992,
+		"confirm_y": 216,
+		"delay": 0,
+		"first_floor_delay": 5,
+		"portal_x": 1441,
+		"portal_y": 371,
+		"stun_first_floor": 1
+	},
+
+	{
+		"name": "LODUGRIZ",
+		"mini_x": 0,
+		"mini_y": 0,
+		"map_x": 1004,
+		"map_y": 33,
+		"confirm_x": 922,
+		"confirm_y": 197,
+		"delay": 5
+	},
+
+	{
+		"name": "BERFEGAR",
+		"mini_x": 0,
+		"mini_y": 0,
+		"map_x": 525,
+		"map_y": 274,
+		"confirm_x": 613,
+		"confirm_y": 373,
+		"delay": 10
+	},
+
+	{
+		"name": "GULDHOLDER",
+		"mini_x": 0,
+		"mini_y": 0,
+		"map_x": 645,
+		"map_y": 415,
+		"confirm_x": 746,
+		"confirm_y": 422,
+		"delay": 10
+	},
+
+	{
+		"name": "FRIGG",
+		"mini_x": 1305,
+		"mini_y": 122,
+		"map_x": 582,
+		"map_y": 350,
+		"confirm_x": 594,
+		"confirm_y": 203,
+		"delay": 11,
+		"first_floor_delay": 5
+	},
+
+	{
+		"name": "KYUKI",
+		"mini_x": 1310,
+		"mini_y": 146,
+		"map_x": 767,
+		"map_y": 395,
+		"confirm_x": 775,
+		"confirm_y": 415,
+		"delay": 10,
+		"stun_second_floor": 1,
+		"first_floor_delay": 5
+	},
+
+	{
+		"name": "GRUDER",
+		"mini_x": 0,
+		"mini_y": 0,
+		"map_x": 661,
+		"map_y": 490,
+		"confirm_x": 660,
+		"confirm_y": 433,
+		"delay": 4,
+		"portal_x": 1431,
+		"portal_y": 351
+	},
+
+	{
+		"name": "BROL",
+		"mini_x": 1436,
+		"mini_y": 81,
+		"map_x": 1180,
+		"map_y": 194,
+		"confirm_x": 1180,
+		"confirm_y": 194,
+		"delay": 4
+	},
+
+	{
+		"name": "SAAM",
+		"mini_x": 1436,
+		"mini_y": 81,
+		"map_x": 1292,
+		"map_y": 320,
+		"confirm_x": 1300,
+		"confirm_y": 320,
+		"delay": 6,
+		"first_floor_delay": 5
+	},
+
+	{
+		"name": "LUNGRET",
+		"mini_x": 0,
+		"mini_y": 0,
+		"map_x": 1401,
+		"map_y": 303,
+		"confirm_x": 1391,
+		"confirm_y": 273,
+		"delay": 3,
+		"portal_x": 1430,
+		"portal_y": 425
+	},
+
+	{
+		"name": "YURVI",
+		"mini_x": 0,
+		"mini_y": 0,
+		"map_x": 0,
+		"map_y": 0,
+		"confirm_x": 1087,
+		"confirm_y": 148,
+		"delay": 1,
+		"first_floor_delay": 5,
+		"second_floor_delay": 6,
+		"portal_x": 1430,
+		"portal_y": 425
+	},
+
+	{
+		"name": "VORSIVUL",
+		"mini_x": 1417,
+		"mini_y": 127,
+		"map_x": 813,
+		"map_y": 245,
+		"confirm_x": 930,
+		"confirm_y": 186,
+		"delay": 9,
+		"portal_x": 1430,
+		"portal_y": 425
+	},
+
+	{
+		"name": "FOLDRIT",
+		"mini_x": 1417,
+		"mini_y": 127,
+		"map_x": 1202,
+		"map_y": 274,
+		"confirm_x": 1225,
+		"confirm_y": 261,
+		"delay": 11
+	},
+
+	{
+		"name": "MINGA",
+		"mini_x": 0,
+		"mini_y": 0,
+		"map_x": 870,
+		"map_y": 40,
+		"confirm_x": 1100,
+		"confirm_y": 250,
+		"delay": 9,
+		"stun_first_floor": 1,
+		"stun_second_floor": 2,
+		"first_floor_delay": 5,
+		"second_floor_delay": 6,
+		"extra_steps_first_floor": 18,
+		"extra_steps_second_floor": 6
+	},
+
+	{
+		"name": "NYOLF",
+		"mini_x": 0,
+		"mini_y": 0,
+		"map_x": 550,
+		"map_y": 35,
+		"confirm_x": 900,
+		"confirm_y": 120,
+		"delay": 11,
+		"stun_first_floor": 2,
+		"stun_sedond_floor": 1,
+		"second_floor_delay": 5,
+		"extra_steps_first_floor": 15,
+		"extra_steps_second_floor": 10
+	},
+
+	{
+		"name": "FRITYOF",
+		"mini_x": 0,
+		"mini_y": 0,
+		"map_x": 0,
+		"map_y": 0,
+		"confirm_x": 1000,
+		"confirm_y": 200,
+		"delay": 1,
+		"stun_first_floor": 2,
+		"stun_sedond_floor": 2,
+		"second_floor_delay": 10,
+		"first_floor_delay": 10,
+		"extra_steps_first_floor": 22,
+		"extra_steps_second_floor": 13
+	},
+
+	{
+		"name": "DIGRA",
+		"mini_x": 0,
+		"mini_y": 0,
+		"map_x": 730,
+		"map_y": 60,
+		"confirm_x": 1100,
+		"confirm_y": 140,
+		"delay": 12,
+		"stun_sedond_floor": 1,
+		"second_floor_delay": 5
+	}
+	]
+}
