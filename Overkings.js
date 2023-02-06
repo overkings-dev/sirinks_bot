@@ -13,7 +13,7 @@ module.exports = function(robot) {
 	this.HOTKEY_SPELL_1
 	this.HOTKEY_SPELL_1_SHIFT
 
-	this.CHANNELING_DELAY = 0.6
+	this.CHANNELING_DELAY = 0.7
 
 	this.hotkeys_to_check = ['teleport', 'sigil', 'spell_1', 'spell_2', 'spell_3', 'spell_4', 'spell_5', 'spell_6', 'spell_7', 'spell_8', 'spell_9']
 
@@ -30,8 +30,6 @@ module.exports = function(robot) {
 		  });
 
 		  for await (const line of rl) {
-		    console.log(`Line from file: ${line}`)
-
 		    for (let hotkey of this.hotkeys_to_check) {
 			    if (line.includes(`${hotkey}=`)) {
 			    	let parts = line.split('=')
@@ -52,8 +50,7 @@ module.exports = function(robot) {
 			return false
 		}
 
-		console.log(this.HOTKEY_TELEPORT)
-		console.log(this.HOTKEY_TELEPORT_SHIFT)
+		console.log(`Teleport: ${this.HOTKEY_TELEPORT}, shift: ${this.HOTKEY_TELEPORT_SHIFT}`)
 
 		return true
 	}
@@ -141,7 +138,7 @@ module.exports = function(robot) {
 		portal_y: this.portal_y_low,
 		stun_first_floor: 1,
 		stun_sedond_floor: 2,
-		second_floor_delay: 17,
+		second_floor_delay: 22,
 		first_floor_delay: 10,
 		extra_steps_first_floor: 14,
 		extra_steps_second_floor: 6,
@@ -161,7 +158,7 @@ module.exports = function(robot) {
 		stun_first_floor: 2,
 		stun_sedond_floor: 2,
 		first_floor_delay: 13,
-		second_floor_delay: 25,
+		second_floor_delay: 30,
 		extra_steps_first_floor: 20,
 		extra_steps_second_floor: 13,
 	}
@@ -312,6 +309,7 @@ module.exports = function(robot) {
 		stun_second_floor: 2,
 		first_floor_delay: 5,
 		second_floor_delay: 10,
+		after_fight_move: 3
 	}
 
 	this.ogg = {
@@ -328,7 +326,7 @@ module.exports = function(robot) {
 		stun_first_floor: 2,
 		stun_second_floor: 2,
 		first_floor_delay: 11,
-		second_floor_delay: 10,
+		second_floor_delay: 15,
 	}
 
 	this.meraban = {
@@ -519,11 +517,6 @@ module.exports = function(robot) {
 		teleport_y: 392
 	}
 
-	this.sayHi = function()
-	{
-		console.log('hi')
-	}
-
 	this.sleep = function(s) {
 		let ms = s * 1000
 		return new Promise((resolve) => {
@@ -548,7 +541,7 @@ module.exports = function(robot) {
 
 		if (boss.map_x) {
 			console.log(`Map`)
-			await this.confirmClick(boss.map_x, boss.map_y, true)
+			await this.confirmClick(boss.map_x, boss.map_y)
 
 			await this.sleep(boss.delay)
 		} else {
@@ -556,7 +549,7 @@ module.exports = function(robot) {
 		}
 
 		console.log(`Location_confirm`)
-		await this.confirmClick(boss.confirm_x, boss.confirm_y, true)
+		await this.confirmClick(boss.confirm_x, boss.confirm_y)
 
 		await this.sleep(1.5)
 
@@ -635,12 +628,9 @@ module.exports = function(robot) {
 	this.teleport = async function(region_number, default_sleep = 0)
 	{
 		console.log(`Teleporting to ${region_number}, waiting ${default_sleep}`)
-		await this.sleep(default_sleep)
 
 		await this.toggleShift(this.HOTKEY_TELEPORT, this.HOTKEY_TELEPORT_SHIFT)
-		await this.toggleShift(this.HOTKEY_TELEPORT, this.HOTKEY_TELEPORT_SHIFT)
-
-		await this.sleep(1)
+		await this.sleep(1.5)
 
 		let y = 405 + 30 * region_number
 
@@ -698,7 +688,7 @@ module.exports = function(robot) {
 		await this.sleep(0.5)
 
 		await this.toggleShift(this.HOTKEY_SPELL_1, this.HOTKEY_SPELL_1_SHIFT)
-		await this.sleep(0.6)
+		await this.sleep(0.7)
 
 		for (let i = 0; i < steps; i++) {
 			console.log(`${i + 1} Move`)
@@ -719,8 +709,6 @@ module.exports = function(robot) {
 
 		await this.toggleShift(this.HOTKEY_SIGIL, this.HOTKEY_SIGIL_SHIFT)
 
-		this.robot.keyToggle('space', 'down')
-		this.robot.keyToggle('space', 'up')
 		await this.toggleShift(this.HOTKEY_SPELL_2, this.HOTKEY_SPELL_2_SHIFT)
 		await this.sleep(2)
 
@@ -747,6 +735,8 @@ module.exports = function(robot) {
 			await this.toggleShift(this.HOTKEY_SPELL_3, this.HOTKEY_SPELL_3_SHIFT)
 			await this.sleep(this.CHANNELING_DELAY)
 
+			this.robot.keyToggle('space', 'down')
+			this.robot.keyToggle('space', 'up')
 			await this.toggleShift(this.HOTKEY_SPELL_8, this.HOTKEY_SPELL_8_SHIFT)
 			await this.sleep(this.CHANNELING_DELAY)
 
@@ -787,10 +777,16 @@ module.exports = function(robot) {
 
 		if (spells) {
 			await this.toggleShift(this.HOTKEY_SPELL_4, this.HOTKEY_SPELL_4_SHIFT)
-			await this.sleep(1)
+			await this.sleep(this.CHANNELING_DELAY)
 
 			await this.toggleShift(this.HOTKEY_SPELL_5, this.HOTKEY_SPELL_5_SHIFT)
-			await this.sleep(1)	
+			await this.sleep(this.CHANNELING_DELAY)	
+
+			await this.toggleShift(this.HOTKEY_SPELL_4, this.HOTKEY_SPELL_4_SHIFT)
+			await this.sleep(this.CHANNELING_DELAY)
+
+			await this.toggleShift(this.HOTKEY_SPELL_5, this.HOTKEY_SPELL_5_SHIFT)
+			await this.sleep(this.CHANNELING_DELAY)	
 
 			this.robot.keyToggle('space', 'down')
 			this.robot.keyToggle('space', 'up')
@@ -832,17 +828,21 @@ module.exports = function(robot) {
 	}
 
 	this.toggleShift = async function(hotkey, shift = false, delay = 0) {
+		console.log('pressing: ', hotkey, ' shift: ', shift)
+
 		if (shift) {
-			await this.robot.keyToggle('shift', 'down')
-			await this.sleep(0.1 + delay)
-			await this.robot.keyToggle(hotkey, 'down')
-			await this.sleep(0.1)
-			await this.robot.keyToggle(hotkey, 'up')
-			await this.robot.keyToggle('shift', 'up')
+			// await this.robot.keyToggle('shift', 'down')
+			// await this.sleep(0.1 + delay)
+			// await this.robot.keyToggle(hotkey, 'down')
+			// await this.sleep(0.1)
+			// await this.robot.keyToggle(hotkey, 'up')
+			// await this.robot.keyToggle('shift', 'up')
+			await this.robot.keyTap(hotkey, 'shift')
 		} else {
-			await this.robot.keyToggle(hotkey, 'down')
-			await this.sleep(0.1)
-			await this.robot.keyToggle(hotkey, 'up')
+			await this.robot.keyTap(hotkey)
+			// await this.robot.keyToggle(hotkey, 'down')
+			// await this.sleep(0.1)
+			// await this.robot.keyToggle(hotkey, 'up')
 		}
 	}
 }

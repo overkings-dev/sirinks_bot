@@ -42,8 +42,7 @@
 		}
 	}
 
-	overkings.sayHi()
-
+	console.log('Sleep for 10 seconds')
 	await overkings.sleep(10)
 
 	if (isVerg) {

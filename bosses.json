@@ -29,7 +29,7 @@
 	},
 
 	{
-		"name": "LODUGRIZ",
+		"name": "LUDOGRIZ",
 		"mini_x": 0,
 		"mini_y": 0,
 		"map_x": 1004,
@@ -185,7 +185,7 @@
 		"delay": 9,
 		"stun_first_floor": 1,
 		"stun_second_floor": 2,
-		"first_floor_delay": 5,
+		"first_floor_delay": 10,
 		"second_floor_delay": 6,
 		"extra_steps_first_floor": 18,
 		"extra_steps_second_floor": 6
@@ -203,7 +203,7 @@
 		"stun_first_floor": 2,
 		"stun_sedond_floor": 1,
 		"second_floor_delay": 5,
-		"extra_steps_first_floor": 15,
+		"extra_steps_first_floor": 18,
 		"extra_steps_second_floor": 10
 	},
 
@@ -234,7 +234,7 @@
 		"confirm_y": 140,
 		"delay": 12,
 		"stun_sedond_floor": 1,
-		"second_floor_delay": 5
+		"second_floor_delay": 10
 	}
 	]
 }
