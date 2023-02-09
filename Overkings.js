@@ -13,9 +13,16 @@ module.exports = function(robot) {
 	this.HOTKEY_SPELL_1
 	this.HOTKEY_SPELL_1_SHIFT
 
-	this.CHANNELING_DELAY = 0.7
+	this.CHANNELING_DELAY = 0.8
 
-	this.hotkeys_to_check = ['teleport', 'sigil', 'spell_1', 'spell_2', 'spell_3', 'spell_4', 'spell_5', 'spell_6', 'spell_7', 'spell_8', 'spell_9']
+	this.hotkeys_to_check = [
+		'teleport', 'sigil', 
+		'spell_1', 'spell_2', 'spell_3', 'spell_4', 'spell_5', 'spell_6', 'spell_7', 'spell_8', 'spell_9'
+	]
+
+	this.teleport_params = [
+		'teleport_x', 'teleport_y', 'teleport_gap', 'teleport_confirm_x', 'teleport_confirm_y'
+	]
 
 	const fs = require('fs')
 	const readline = require('readline');
@@ -55,6 +62,35 @@ module.exports = function(robot) {
 		return true
 	}
 
+	this.loadTeleportCoordinates = async function() {
+		try {
+		  const fileStream = fs.createReadStream('teleport.cfg');
+
+		  const rl = readline.createInterface({
+		    input: fileStream,
+		    crlfDelay: Infinity
+		  });
+
+		  for await (const line of rl) {
+		    for (let hotkey of this.teleport_params) {
+			    if (line.includes(`${hotkey}=`)) {
+			    	let parts = line.split('=')
+			    	hotkey = hotkey.toUpperCase()
+
+			    	this[`HOTKEY_${hotkey}`] = parseInt(parts[1])
+			    }
+			}
+		  }
+		} catch(e) {
+			console.log(e.message)
+			return false
+		}
+		console.log(`Teleport_X_Y: ${this.HOTKEY_TELEPORT_X}, ${this.HOTKEY_TELEPORT_Y}`)
+		console.log(`Teleport_confirm_X_Y: ${this.HOTKEY_TELEPORT_CONFIRM_X}, ${this.HOTKEY_TELEPORT_CONFIRM_Y}`)
+
+		return true
+	}
+
 	this.loadBosses = async function() {
 
 		try {
@@ -80,428 +116,6 @@ module.exports = function(robot) {
 
 	this.portal_x_low = 1430
 	this.portal_y_low = 425
-
-
-	this.olfradi = {
-		name: 'OLFRADI',
-		mini_x: 0,
-		mini_y: 0,
-		map_x: 0,
-		map_y: 0,
-		confirm_x: 1368,
-		confirm_y: 437,
-		delay: 0,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low
-	}
-
-	this.kniaz = {
-		name: 'KNIAZ',
-		mini_x: 0,
-		mini_y: 0,
-		map_x: 1223,
-		map_y: 125,
-		confirm_x: 1221,
-		confirm_y: 181,
-		delay: 2,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 1,
-		stun_second_floor: 1,
-	}
-
-	this.gorm = {
-		name: 'GORM',
-		mini_x: 1424,
-		mini_y: 159,
-		map_x: 1053,
-		map_y: 310,
-		confirm_x: 1080,
-		confirm_y: 263,
-		delay: 8,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: false,
-		stun_second_floor: false,
-	}
-
-	this.vergranda = {
-		name: 'VERGRANDA',
-		mini_x: 1420,
-		mini_y: 175,
-		map_x: 1000,
-		map_y: 310,
-		confirm_x: 1100,
-		confirm_y: 300,
-		delay: 9,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 1,
-		stun_sedond_floor: 2,
-		second_floor_delay: 22,
-		first_floor_delay: 10,
-		extra_steps_first_floor: 14,
-		extra_steps_second_floor: 6,
-	}
-
-	this.nils = {
-		name: 'NILS',
-		mini_x: 1366,
-		mini_y: 200,
-		map_x: 1000,
-		map_y: 385,
-		confirm_x: 787,
-		confirm_y: 410,
-		delay: 8,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 2,
-		stun_sedond_floor: 2,
-		first_floor_delay: 13,
-		second_floor_delay: 30,
-		extra_steps_first_floor: 20,
-		extra_steps_second_floor: 13,
-	}
-
-	this.erdhorn = {
-		name: 'ERDHORN',
-		mini_x: 1405,
-		mini_y: 140,
-		map_x: 945,
-		map_y: 310,
-		confirm_x: 915,
-		confirm_y: 390,
-		delay: 12,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 1,
-		stun_sedond_floor: 2,
-		second_floor_delay: 7,
-		extra_steps_first_floor: 11,
-		extra_steps_second_floor: 8,
-		after_fight_move: 3
-	}
-
-	this.alva = {
-		name: 'ALVA',
-		mini_x: 1300,
-		mini_y: 110,
-		map_x: 530,
-		map_y: 435,
-		confirm_x: 530,
-		confirm_y: 290,
-		delay: 6,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 2,
-		stun_sedond_floor: 2,
-		second_floor_delay: 25,
-		first_floor_delay: 15,
-		extra_steps_first_floor: 13,
-		extra_steps_second_floor: 10,
-	}
-
-	this.urdi = {
-		name: 'URDI',
-		mini_x: 0,
-		mini_y: 0,
-		map_x: 1023,
-		map_y: 388,
-		confirm_x: 1025,
-		confirm_y: 400,
-		delay: 3,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: false,
-		stun_second_floor: 1,
-		first_floor_delay: 5,
-	}
-
-	this.ilding = {
-		name: 'ILDING',
-		mini_x: 0,
-		mini_y: 0,
-		map_x: 836,
-		map_y: 405,
-		confirm_x: 921,
-		confirm_y: 187,
-		delay: 6,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 1,
-		stun_second_floor: false,
-	}
-
-	this.skriga = {
-		name: 'SKRIGA',
-		mini_x: 0,
-		mini_y: 0,
-		map_x: 510,
-		map_y: 310,
-		confirm_x: 535,
-		confirm_y: 258,
-		delay: 3,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: false,
-		stun_second_floor: 1,
-		second_floor_delay: 5,
-	}
-
-	this.vorfturm = {
-		name: 'VORFTURM',
-		mini_x: 1304,
-		mini_y: 121,
-		map_x: 535,
-		map_y: 429,
-		confirm_x: 505,
-		confirm_y: 415,
-		delay: 7,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: false,
-		stun_second_floor: false,
-	}
-
-	this.brost = {
-		name: 'BROST',
-		mini_x: 1317,
-		mini_y: 108,
-		map_x: 915,
-		map_y: 380,
-		confirm_x: 910,
-		confirm_y: 400,
-		delay: 7,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: false,
-		stun_second_floor: false,
-	}
-
-	this.yarl = {
-		name: 'YARL',
-		mini_x: 0,
-		mini_y: 0,
-		map_x: 0,
-		map_y: 0,
-		confirm_x: 730,
-		confirm_y: 370,
-		delay: 0,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: false,
-		stun_second_floor: 1,
-		first_floor_delay: 5,
-	}
-
-	this.heo = {
-		name: 'HEO',
-		mini_x: 0,
-		mini_y: 0,
-		map_x: 1095,
-		map_y: 145,
-		confirm_x: 1065,
-		confirm_y: 265,
-		delay: 3,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 2,
-		stun_second_floor: 2,
-		first_floor_delay: 5,
-		second_floor_delay: 10,
-		after_fight_move: 3
-	}
-
-	this.ogg = {
-		name: 'OGG',
-		mini_x: 0,
-		mini_y: 0,
-		map_x: 1355,
-		map_y: 255,
-		confirm_x: 1150,
-		confirm_y: 300,
-		delay: 6,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 2,
-		stun_second_floor: 2,
-		first_floor_delay: 11,
-		second_floor_delay: 15,
-	}
-
-	this.meraban = {
-		name: 'MERABAN',
-		mini_x: 0,
-		mini_y: 0,
-		map_x: 1110,
-		map_y: 35,
-		confirm_x: 1100,
-		confirm_y: 110,
-		delay: 4,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 0,
-		stun_second_floor: 1,
-	}
-
-	this.smerla = {
-		name: 'SMERLA',
-		mini_x: 1435,	
-		mini_y: 210,
-		map_x: 1365,
-		map_y: 330,
-		confirm_x: 1365,
-		confirm_y: 330,
-		delay: 7,
-		portal_x: this.portal_x,
-		portal_y: this.portal_y,
-		stun_first_floor: 0,
-		stun_second_floor: 1,
-	}
-
-	this.baal = {
-		name: 'BAAL',
-		mini_x: 0,	
-		mini_y: 0,
-		map_x: 0,
-		map_y: 0,
-		confirm_x: 815,
-		confirm_y: 235,
-		delay: 0.5,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		first_floor_delay: 5,
-		stun_first_floor: 0,
-		stun_second_floor: 1,
-	}
-
-	this.gorgelad = {
-		name: 'GORGELAD',
-		mini_x: 1405,	
-		mini_y: 85,
-		map_x: 1000,
-		map_y: 160,
-		confirm_x: 1000,
-		confirm_y: 130,
-		delay: 7,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 2,
-		stun_second_floor: 2,
-	}
-
-	this.mardonius = {
-		name: 'MARDONIUS',
-		mini_x: 1405,	
-		mini_y: 85,
-		map_x: 1200,
-		map_y: 125,
-		confirm_x: 1085,
-		confirm_y: 120,
-		delay: 9,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 0,
-		stun_second_floor: 1,
-		first_floor_delay: 5,
-	}
-
-	this.marzuba = {
-		name: 'MARZUBA',
-		mini_x: 1425,	
-		mini_y: 130,
-		map_x: 1150,
-		map_y: 310,
-		confirm_x: 1150,
-		confirm_y: 330,
-		delay: 12,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 0,
-		stun_second_floor: 1,
-		portal_delay: 1
-	}
-
-	this.cumamba = {
-		name: 'CUMAMBA',
-		mini_x: 0,	
-		mini_y: 0,
-		map_x: 720,
-		map_y: 120,
-		confirm_x: 700,
-		confirm_y: 100,
-		delay: 2,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 2,
-		stun_second_floor: 2,
-		first_floor_delay: 10,
-	}
-
-	this.ogdenhag = {
-		name: 'OGDENHAG',
-		mini_x: 0,	
-		mini_y: 0,
-		map_x: 570,
-		map_y: 410,
-		confirm_x: 580,
-		confirm_y: 420,
-		delay: 4,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 0,
-		stun_second_floor: 1,
-		first_floor_delay: 5,
-	}
-
-	this.garmfuldi = {
-		name: 'GARMFULDI',
-		mini_x: 0,	
-		mini_y: 0,
-		map_x: 1270,
-		map_y: 430,
-		confirm_x: 1100,
-		confirm_y: 350,
-		delay: 8,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 0,
-		stun_second_floor: 1,
-		first_floor_delay: 5,
-	}
-
-	this.jurda = {
-		name: 'JURDA',
-		mini_x: 1330,	
-		mini_y: 110,
-		map_x: 1140,
-		map_y: 315,
-		confirm_x: 1120,
-		confirm_y: 325,
-		delay: 7,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 0,
-		stun_second_floor: 1,
-		first_floor_delay: 5,
-	}
-
-	this.loghorn = {
-		name: 'LOGHORN',
-		mini_x: 1305,	
-		mini_y: 130,
-		map_x: 850,
-		map_y: 345,
-		confirm_x: 820,
-		confirm_y: 430,
-		delay: 8,
-		portal_x: this.portal_x_low,
-		portal_y: this.portal_y_low,
-		stun_first_floor: 0,
-		stun_second_floor: 1,
-		first_floor_delay: 5,
-	}
-	 
 
 	this.location_normal = {
 		x: 927,
@@ -627,19 +241,25 @@ module.exports = function(robot) {
 
 	this.teleport = async function(region_number, default_sleep = 0)
 	{
-		console.log(`Teleporting to ${region_number}, waiting ${default_sleep}`)
+		try {
+			console.log(`Teleporting to ${region_number}, waiting ${default_sleep}`)
 
-		await this.toggleShift(this.HOTKEY_TELEPORT, this.HOTKEY_TELEPORT_SHIFT)
-		await this.sleep(1.5)
+			// TELEPORT COORDINATIONS from hotkeys.cfg
+			await this.toggleShift(this.HOTKEY_TELEPORT, this.HOTKEY_TELEPORT_SHIFT)
+			await this.sleep(1.5)
 
-		let y = 405 + 30 * region_number
+			let y = this.HOTKEY_TELEPORT_Y + this.HOTKEY_TELEPORT_GAP * region_number
 
-		await this.confirmClick(825, y)
-		await this.sleep(1)
+			await this.confirmClick(this.HOTKEY_TELEPORT_X, y)
+			await this.sleep(1)
 
-		// click TP
-		await this.confirmClick(870, 660)
-		await this.sleep(1)
+			// click TP
+			await this.confirmClick(this.HOTKEY_TELEPORT_CONFIRM_X, this.HOTKEY_TELEPORT_CONFIRM_Y)
+			await this.sleep(1)
+		} catch(e) {
+			console.log(e.message)
+			process.exit(1)
+		}
 	}
 
 	this.confirmClick = async function(x, y, double = false)
@@ -679,7 +299,6 @@ module.exports = function(robot) {
 
 	this.move = async function(steps = 14, isFirst = true)
 	{
-		console.log(`Move to start`)
 		if (isFirst) {
 			await this.sleep(3)
 		}
@@ -691,7 +310,6 @@ module.exports = function(robot) {
 		await this.sleep(0.7)
 
 		for (let i = 0; i < steps; i++) {
-			console.log(`${i + 1} Move`)
 
 			this.altClick(this.location_middle_position.x, this.location_middle_position.y)
 			if (i === 0 && isFirst) {
@@ -709,23 +327,27 @@ module.exports = function(robot) {
 
 		await this.toggleShift(this.HOTKEY_SIGIL, this.HOTKEY_SIGIL_SHIFT)
 
-		await this.toggleShift(this.HOTKEY_SPELL_2, this.HOTKEY_SPELL_2_SHIFT)
-		await this.sleep(2)
+		if (!spells) {
+			await this.toggleShift(this.HOTKEY_SPELL_2, this.HOTKEY_SPELL_2_SHIFT)
+			await this.sleep(2)
 
-		await this.toggleShift(this.HOTKEY_SPELL_3, this.HOTKEY_SPELL_3_SHIFT)
-		await this.sleep(this.CHANNELING_DELAY)
+			await this.toggleShift(this.HOTKEY_SPELL_3, this.HOTKEY_SPELL_3_SHIFT)
+			await this.sleep(this.CHANNELING_DELAY)
+		}
 
 		if (spells) {
-			await this.toggleShift(this.HOTKEY_SPELL_4, this.HOTKEY_SPELL_4_SHIFT)
-			await this.sleep(this.CHANNELING_DELAY)
 
-			await this.toggleShift(this.HOTKEY_SPELL_5, this.HOTKEY_SPELL_5_SHIFT)
-			await this.sleep(this.CHANNELING_DELAY)	
+			for (let i = 0; i < 3; i++) {
+				await this.toggleShift(this.HOTKEY_SPELL_5, this.HOTKEY_SPELL_5_SHIFT)
+				await this.sleep(this.CHANNELING_DELAY)	
+			}
 
-			this.robot.keyToggle('space', 'down')
-			this.robot.keyToggle('space', 'up')
-			await this.toggleShift(this.HOTKEY_SPELL_6, this.HOTKEY_SPELL_6_SHIFT)
-			await this.sleep(this.CHANNELING_DELAY)	
+			for (let i = 0; i < 3; i++) {
+				this.robot.keyToggle('space', 'down')
+				this.robot.keyToggle('space', 'up')
+				await this.toggleShift(this.HOTKEY_SPELL_6, this.HOTKEY_SPELL_6_SHIFT)
+				await this.sleep(this.CHANNELING_DELAY)	
+			}
 
 			await this.toggleShift(this.HOTKEY_SPELL_7, this.HOTKEY_SPELL_7_SHIFT)
 			await this.sleep(this.CHANNELING_DELAY)	
@@ -767,34 +389,31 @@ module.exports = function(robot) {
 		// sigil
 		await this.toggleShift(this.HOTKEY_SIGIL, this.HOTKEY_SIGIL_SHIFT)
 
-		this.robot.keyToggle('space', 'down')
-		this.robot.keyToggle('space', 'up')
-		await this.toggleShift(this.HOTKEY_SPELL_2, this.HOTKEY_SPELL_2_SHIFT)
-		await this.sleep(2.2)
-
-		await this.toggleShift(this.HOTKEY_SPELL_3, this.HOTKEY_SPELL_3_SHIFT)
-		await this.sleep(1)
-
-		if (spells) {
-			await this.toggleShift(this.HOTKEY_SPELL_4, this.HOTKEY_SPELL_4_SHIFT)
-			await this.sleep(this.CHANNELING_DELAY)
-
-			await this.toggleShift(this.HOTKEY_SPELL_5, this.HOTKEY_SPELL_5_SHIFT)
-			await this.sleep(this.CHANNELING_DELAY)	
-
-			await this.toggleShift(this.HOTKEY_SPELL_4, this.HOTKEY_SPELL_4_SHIFT)
-			await this.sleep(this.CHANNELING_DELAY)
-
-			await this.toggleShift(this.HOTKEY_SPELL_5, this.HOTKEY_SPELL_5_SHIFT)
-			await this.sleep(this.CHANNELING_DELAY)	
-
+		if (!spells) {
 			this.robot.keyToggle('space', 'down')
 			this.robot.keyToggle('space', 'up')
-			await this.toggleShift(this.HOTKEY_SPELL_6, this.HOTKEY_SPELL_6_SHIFT)
-			await this.sleep(1)	
+			await this.toggleShift(this.HOTKEY_SPELL_2, this.HOTKEY_SPELL_2_SHIFT)
+			await this.sleep(2.2)
 
-			this.robot.keyToggle('3', 'down')
-			this.robot.keyToggle('3', 'up')
+			await this.toggleShift(this.HOTKEY_SPELL_3, this.HOTKEY_SPELL_3_SHIFT)
+			await this.sleep(1)
+		}
+
+		if (spells) {
+
+			for (let i = 0; i < 3; i++) {
+				await this.toggleShift(this.HOTKEY_SPELL_5, this.HOTKEY_SPELL_5_SHIFT)
+				await this.sleep(this.CHANNELING_DELAY)	
+			}
+
+			for (let i = 0; i < 3; i++) {
+				this.robot.keyToggle('space', 'down')
+				this.robot.keyToggle('space', 'up')
+				await this.toggleShift(this.HOTKEY_SPELL_6, this.HOTKEY_SPELL_6_SHIFT)
+				await this.sleep(this.CHANNELING_DELAY)	
+			}
+
+			await this.toggleShift(this.HOTKEY_SPELL_7, this.HOTKEY_SPELL_7_SHIFT)
 			await this.sleep(this.CHANNELING_DELAY)	
 		}
 
@@ -828,21 +447,24 @@ module.exports = function(robot) {
 	}
 
 	this.toggleShift = async function(hotkey, shift = false, delay = 0) {
-		console.log('pressing: ', hotkey, ' shift: ', shift)
-
-		if (shift) {
-			// await this.robot.keyToggle('shift', 'down')
-			// await this.sleep(0.1 + delay)
-			// await this.robot.keyToggle(hotkey, 'down')
-			// await this.sleep(0.1)
-			// await this.robot.keyToggle(hotkey, 'up')
-			// await this.robot.keyToggle('shift', 'up')
-			await this.robot.keyTap(hotkey, 'shift')
-		} else {
-			await this.robot.keyTap(hotkey)
-			// await this.robot.keyToggle(hotkey, 'down')
-			// await this.sleep(0.1)
-			// await this.robot.keyToggle(hotkey, 'up')
+		// console.log('pressing: ', hotkey, ' shift: ', shift)
+		try {
+			if (shift) {
+				// await this.robot.keyToggle('shift', 'down')
+				// await this.sleep(0.1 + delay)
+				// await this.robot.keyToggle(hotkey, 'down')
+				// await this.sleep(0.1)
+				// await this.robot.keyToggle(hotkey, 'up')
+				// await this.robot.keyToggle('shift', 'up')
+				await this.robot.keyTap(hotkey, 'shift')
+			} else {
+				await this.robot.keyTap(hotkey)
+				// await this.robot.keyToggle(hotkey, 'down')
+				// await this.sleep(0.1)
+				// await this.robot.keyToggle(hotkey, 'up')
+			}
+		} catch(e) {
+			console.log('Cannot toggleShift:', e.message)
 		}
 	}
 }

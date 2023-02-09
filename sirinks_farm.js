@@ -17,6 +17,11 @@
 		process.exit(1)
 	}
 
+	if (!await overkings.loadTeleportCoordinates()) {
+		console.log('Cannot load Teleport Coordinates... exit')
+		process.exit(1)
+	}
+
 	let args = process.argv.slice(2)
 
 	let isVerg = false
@@ -42,10 +47,19 @@
 		}
 	}
 
-	console.log('Sleep for 10 seconds')
-	await overkings.sleep(10)
+	console.log('Sleep for 5 seconds')
+	await overkings.sleep(5)
+
+	try {
+		console.log('Running Test: type 1')
+		await overkings.toggleShift('1')
+		await overkings.toggleShift('1', true)
+	} catch (e) {
+		console.log(e.message)
+	}
 
 	if (isVerg) {
+		console.log('Started Verg at: ', new Date())
 			// Vergerland		--------------------------- 18 bosses
 		// ERIGE - KZ
 		await overkings.teleport(4, 1)
@@ -104,9 +118,11 @@
 
 		await overkings.teleport(1, 1)
 		await overkings.farmBoss(overkings.saam)
+		console.log('Finished Verg at: ', new Date())
 	}
 
 	if (isFiord) {
+		console.log('Started Fiord at: ', new Date())
 			// HARANGER FIORD 		------------------------------- 13 bosses
 		//Hrogland
 		await overkings.teleport(2, 1)
@@ -146,14 +162,15 @@
 		// Zaliv
 		await overkings.teleport(4, 1)
 		await overkings.farmBoss(overkings.yarl)
+		console.log('Finished Verg at: ', new Date())
 	}
 
 	if (isHeim) {
+		console.log('Started Heim at: ', new Date())
 			// HEIMSKRINGLA		------------------------------- 13 bosses
 		// Razlom
-		await overkings.farmBoss(overkings.heo, 4)
-
-		await overkings.farmBoss(overkings.ogg, 4)
+		// await overkings.farmBoss(overkings.ogg, 4)
+		await overkings.farmBoss(overkings.heo, 4)		
 
 		// Gorod Vetrov
 		await overkings.teleport(2, 1)
@@ -190,6 +207,7 @@
 
 		await overkings.teleport(3, 1)
 		await overkings.farmBoss(overkings.loghorn, 4)
+		console.log('Finished Heim at: ', new Date())
 	}
 })();
 
