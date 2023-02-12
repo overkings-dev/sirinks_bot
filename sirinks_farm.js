@@ -22,6 +22,8 @@
 		process.exit(1)
 	}
 
+	console.log('Channeling: ', overkings.CHANNELING_DELAY)
+
 	let args = process.argv.slice(2)
 
 	let isVerg = false
@@ -53,7 +55,6 @@
 	try {
 		console.log('Running Test: type 1')
 		await overkings.toggleShift('1')
-		await overkings.toggleShift('1', true)
 	} catch (e) {
 		console.log(e.message)
 	}
@@ -62,8 +63,10 @@
 		console.log('Started Verg at: ', new Date())
 			// Vergerland		--------------------------- 18 bosses
 		// ERIGE - KZ
-		await overkings.teleport(4, 1)
-		await overkings.farmBoss(overkings.minga)
+		if (overkings.HOTKEY_CHAR_STRONG) {
+			await overkings.teleport(4, 1)
+			await overkings.farmBoss(overkings.minga)
+		}
 
 		await overkings.teleport(4, 1)
 		await overkings.farmBoss(overkings.lungret)
@@ -80,8 +83,10 @@
 		// ONSLAND
 		await overkings.farmBoss(overkings.borgar)
 
-		await overkings.teleport(2, 1)
-		await overkings.farmBoss(overkings.irm)
+		if (overkings.HOTKEY_CHAR_STRONG) {
+			await overkings.teleport(2, 1)
+			await overkings.farmBoss(overkings.irm)
+		}
 
 		// UTSALA
 		await overkings.teleport(6, 1)
@@ -99,19 +104,23 @@
 		await overkings.teleport(6, 1)
 		await overkings.farmBoss(overkings.kyuki)
 
-		await overkings.teleport(6, 1)
-		await overkings.farmBoss(overkings.frityof)
+		if (overkings.HOTKEY_CHAR_STRONG) {
+			await overkings.teleport(6, 1)
+			await overkings.farmBoss(overkings.frityof)
+		}
 
 		// TOYRE
 		await overkings.teleport(3, 1)
 		await overkings.farmBoss(overkings.gruder)
 
 		// KRONSLIHT
-		await overkings.teleport(1, 1)
-		await overkings.farmBoss(overkings.digra)
+		if (overkings.HOTKEY_CHAR_STRONG) {
+			await overkings.teleport(1, 1)
+			await overkings.farmBoss(overkings.digra)
 
-		await overkings.teleport(1, 1)
-		await overkings.farmBoss(overkings.nyolf)
+			await overkings.teleport(1, 1)
+			await overkings.farmBoss(overkings.nyolf)
+		}
 
 		await overkings.teleport(1, 1)
 		await overkings.farmBoss(overkings.brol)
@@ -128,16 +137,20 @@
 		await overkings.teleport(2, 1)
 		await overkings.farmBoss(overkings.olfradi)
 
-		await overkings.teleport(2, 1)
-		await overkings.farmBoss(overkings.kniaz)
+		if (overkings.HOTKEY_CHAR_STRONG) {
+			await overkings.teleport(2, 1)
+			await overkings.farmBoss(overkings.kniaz)
+		}
 
 		await overkings.farmBoss(overkings.gorm)
 
-		await overkings.farmBoss(overkings.vergranda)
+		if (overkings.HOTKEY_CHAR_STRONG) {
+			await overkings.farmBoss(overkings.vergranda)
 
-		await overkings.farmBoss(overkings.nils)
+			await overkings.farmBoss(overkings.nils)
 
-		await overkings.farmBoss(overkings.erdhorn)
+			await overkings.farmBoss(overkings.erdhorn)
+		}
 
 		// Verstve
 		await overkings.teleport(1, 1)
@@ -153,8 +166,10 @@
 		await overkings.teleport(3, 1)
 		await overkings.farmBoss(overkings.brost)
 
-		await overkings.teleport(3, 1)
-		await overkings.farmBoss(overkings.alva)
+		if (overkings.HOTKEY_CHAR_STRONG) {
+			await overkings.teleport(3, 1)
+			await overkings.farmBoss(overkings.alva)
+		}
 
 		await overkings.teleport(3, 1)
 		await overkings.farmBoss(overkings.skriga)
@@ -169,7 +184,7 @@
 		console.log('Started Heim at: ', new Date())
 			// HEIMSKRINGLA		------------------------------- 13 bosses
 		// Razlom
-		// await overkings.farmBoss(overkings.ogg, 4)
+		await overkings.farmBoss(overkings.ogg, 4)
 		await overkings.farmBoss(overkings.heo, 4)		
 
 		// Gorod Vetrov

@@ -262,7 +262,7 @@
 		"delay": 2,
 		"portal_x": 1430,
 		"portal_y": 425,
-		"stun_first_floor": 1,
+		"stun_first_floor": 0,
 		"stun_second_floor": 1,
 		"after_fight_move": 3
 	},
@@ -279,7 +279,8 @@
 		"portal_x": 1430,
 		"portal_y": 425,
 		"stun_first_floor": false,
-		"stun_second_floor": false
+		"stun_second_floor": false,
+		"second_floor_delay": 5
 	},
 
 	{
@@ -416,6 +417,7 @@
 		"delay": 7,
 		"portal_x": 1430,
 		"portal_y": 425,
+		"first_floor_delay": 5,
 		"stun_first_floor": false,
 		"stun_second_floor": false
 	},
@@ -528,8 +530,9 @@
 		"portal_x": 1430,
 		"portal_y": 425,
 		"first_floor_delay": 5,
+		"second_floor_delay": 5,
 		"stun_first_floor": 0,
-		"stun_second_floor": 1
+		"stun_second_floor": 0
 	},
 
 	{
@@ -559,7 +562,7 @@
 		"portal_x": 1430,
 		"portal_y": 425,
 		"stun_first_floor": 0,
-		"stun_second_floor": 1,
+		"stun_second_floor": 0,
 		"first_floor_delay": 5
 	},
 
@@ -575,7 +578,7 @@
 		"portal_x": 1430,
 		"portal_y": 425,
 		"stun_first_floor": 0,
-		"stun_second_floor": 1,
+		"stun_second_floor": 0,
 		"portal_delay": 1
 	},
 
@@ -607,8 +610,9 @@
 		"portal_x": 1430,
 		"portal_y": 425,
 		"stun_first_floor": 0,
-		"stun_second_floor": 1,
-		"first_floor_delay": 5
+		"stun_second_floor": 0,
+		"first_floor_delay": 5,
+		"second_floor_delay": 5
 	},
 
 	{
@@ -623,7 +627,7 @@
 		"portal_x": 1430,
 		"portal_y": 425,
 		"stun_first_floor": 0,
-		"stun_second_floor": 1,
+		"stun_second_floor": 0,
 		"first_floor_delay": 5
 	},
 
@@ -639,7 +643,7 @@
 		"portal_x": 1430,
 		"portal_y": 425,
 		"stun_first_floor": 0,
-		"stun_second_floor": 1,
+		"stun_second_floor": 0,
 		"first_floor_delay": 5
 	},
 
@@ -655,7 +659,7 @@
 		"portal_x": 1430,
 		"portal_y": 425,
 		"stun_first_floor": 0,
-		"stun_second_floor": 1,
+		"stun_second_floor": 0,
 		"first_floor_delay": 5
 	}
 	]
