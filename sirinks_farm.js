@@ -6,29 +6,13 @@
 	// Speed up the mouse.
 	// robot.setMouseDelay(10)
 	let overkings = new Overkings(robot)
-	
-	if (!await overkings.loadHotkeys()) {
-		console.log('Cannot load Hotkeys... exit')
-		process.exit(1)
-	}
-
-	if (!await overkings.loadBosses()) {
-		console.log('Cannot load Bosses... exit')
-		process.exit(1)
-	}
-
-	if (!await overkings.loadTeleportCoordinates()) {
-		console.log('Cannot load Teleport Coordinates... exit')
-		process.exit(1)
-	}
-
-	console.log('Channeling: ', overkings.CHANNELING_DELAY)
-
-	let args = process.argv.slice(2)
 
 	let isVerg = false
 	let isFiord = false
 	let isHeim = false
+	let char
+
+	let args = process.argv.slice(2)
 
 	if (args[0]) {
 		switch(args[0]) {
@@ -49,6 +33,25 @@
 		}
 	}
 
+	char = args[1] ? args[1] : null 
+	
+	if (!await overkings.loadHotkeys(char)) {
+		console.log('Cannot load Hotkeys... exit')
+		process.exit(1)
+	}
+
+	if (!await overkings.loadBosses()) {
+		console.log('Cannot load Bosses... exit')
+		process.exit(1)
+	}
+
+	if (!await overkings.loadTeleportCoordinates(char)) {
+		console.log('Cannot load Teleport Coordinates... exit')
+		process.exit(1)
+	}
+
+	console.log('Channeling: ', overkings.CHANNELING_DELAY)
+
 	console.log('Sleep for 5 seconds')
 	await overkings.sleep(5)
 
@@ -58,6 +61,7 @@
 	} catch (e) {
 		console.log(e.message)
 	}
+
 
 	if (isVerg) {
 		console.log('Started Verg at: ', new Date())
@@ -69,16 +73,16 @@
 		}
 
 		await overkings.teleport(4, 1)
-		await overkings.farmBoss(overkings.lungret)
-
-		await overkings.teleport(4, 1)
-		await overkings.farmBoss(overkings.yurvi)
-
-		await overkings.teleport(4, 1)
 		await overkings.farmBoss(overkings.vorsivul)
 
 		await overkings.teleport(4, 1)
 		await overkings.farmBoss(overkings.foldrit)
+
+		await overkings.teleport(4, 1)
+		await overkings.farmBoss(overkings.lungret)
+
+		await overkings.teleport(4, 1)
+		await overkings.farmBoss(overkings.yurvi)
 
 		// ONSLAND
 		await overkings.farmBoss(overkings.borgar)
@@ -101,10 +105,10 @@
 		await overkings.teleport(6, 1)
 		await overkings.farmBoss(overkings.frigg)
 
-		await overkings.teleport(6, 1)
-		await overkings.farmBoss(overkings.kyuki)
-
 		if (overkings.HOTKEY_CHAR_STRONG) {
+			await overkings.teleport(6, 1)
+			await overkings.farmBoss(overkings.kyuki)
+
 			await overkings.teleport(6, 1)
 			await overkings.farmBoss(overkings.frityof)
 		}
@@ -149,7 +153,7 @@
 
 			await overkings.farmBoss(overkings.nils)
 
-			await overkings.farmBoss(overkings.erdhorn)
+			// await overkings.farmBoss(overkings.erdhorn)
 		}
 
 		// Verstve

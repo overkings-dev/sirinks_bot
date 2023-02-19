@@ -12,6 +12,8 @@ module.exports = function(robot) {
 	this.HOTKEY_TELEPORT_SHIFT
 	this.HOTKEY_SPELL_1
 	this.HOTKEY_SPELL_1_SHIFT
+	this.HOTKEY_SIGIL_2
+	this.HOTKEY_SIGIL_2_SHIFT
 	this.HOTKEY_ANTI_STUN_REPEATS = 3
 	this.HOTKEY_EXTRA_STEPS = 0
 
@@ -21,7 +23,7 @@ module.exports = function(robot) {
 
 	this.hotkeys_to_check = [
 		'teleport', 'sigil', 
-		'spell_1', 'spell_2', 'spell_3', 'spell_4', 'spell_5', 'spell_6', 'spell_7', 'spell_8', 'spell_9', 'stoyka'
+		'spell_1', 'spell_2', 'spell_3', 'spell_4', 'spell_5', 'spell_6', 'spell_7', 'spell_8', 'spell_9', 'stoyka', 'sigil_2'
 	]
 
 	this.teleport_params = [
@@ -33,9 +35,12 @@ module.exports = function(robot) {
 	const fs = require('fs')
 	const readline = require('readline');
 
-	this.loadHotkeys = async function() {
+	this.loadHotkeys = async function(char = null) {
+		let filename = char ? `hotkeys_${char}.cfg` : 'hotkeys.cfg'			
+		const fileStream = fs.createReadStream(filename)
+
 		try {
-		  const fileStream = fs.createReadStream('hotkeys.cfg');
+		  const fileStream = fs.createReadStream(filename)
 
 		  const rl = readline.createInterface({
 		    input: fileStream,
@@ -69,9 +74,10 @@ module.exports = function(robot) {
 		return true
 	}
 
-	this.loadTeleportCoordinates = async function() {
+	this.loadTeleportCoordinates = async function(char = null) {
 		try {
-		  const fileStream = fs.createReadStream('teleport.cfg');
+		  let filename = char ? `teleport_${char}.cfg` : 'teleport.cfg'			
+		  const fileStream = fs.createReadStream(filename)
 
 		  const rl = readline.createInterface({
 		    input: fileStream,
@@ -188,7 +194,7 @@ module.exports = function(robot) {
 			await this.confirmClick(this.location_normal.x, this.location_normal.y + 30)
 		}
 
-		await this.sleep(2)
+		await this.sleep(1)
 
 		let def_first_floor_steps = 14 + this.HOTKEY_EXTRA_STEPS
 		let steps_first_floor = boss.extra_steps_first_floor ? def_first_floor_steps + boss.extra_steps_first_floor : def_first_floor_steps
@@ -311,12 +317,12 @@ module.exports = function(robot) {
 	this.move = async function(steps = 14, isFirst = true)
 	{
 		if (isFirst) {
+			await this.sleep(3)
 			if (this.HOTKEY_STOYKA) {
 				console.log('Stoyka')
 				await this.toggleShift(this.HOTKEY_STOYKA, this.HOTKEY_STOYKA_SHIFT)
 				await this.sleep(this.CHANNELING_DELAY)
 			}
-			await this.sleep(3)
 		}
 
 		await this.confirmClick(this.location_middle_position.start_x, this.location_middle_position.start_y)
@@ -350,8 +356,17 @@ module.exports = function(robot) {
 			await this.toggleShift(this.HOTKEY_SPELL_2, this.HOTKEY_SPELL_2_SHIFT)
 			await this.sleep(2)
 
+			await this.robot.keyToggle('space', 'down')
+			await this.robot.keyToggle('space', 'up')
 			await this.toggleShift(this.HOTKEY_SPELL_3, this.HOTKEY_SPELL_3_SHIFT)
-			await this.sleep(this.CHANNELING_DELAY)
+			await this.sleep(this.HOTKEY_CHAR_STRONG ? this.CHANNELING_DELAY : this.CHANNELING_DELAY + 1)
+
+			if (!this.HOTKEY_CHAR_STRONG) {
+				await this.robot.keyToggle('space', 'down')
+				await this.robot.keyToggle('space', 'up')
+				await this.toggleShift(this.HOTKEY_SPELL_3, this.HOTKEY_SPELL_3_SHIFT)
+				await this.sleep(this.CHANNELING_DELAY + 1)
+			}
 		}
 
 		await this.toggleShift(this.HOTKEY_SIGIL, this.HOTKEY_SIGIL_SHIFT)
@@ -408,11 +423,12 @@ module.exports = function(robot) {
 
 	this.fightSecondFloor = async function(sleep_after_fight = 0, spells = 0)
 	{
+		console.log('---------------\n Fighting on 2nd floor: \n')
 		await this.toggleShift(this.HOTKEY_SPELL_1, this.HOTKEY_SPELL_1_SHIFT)
 		await this.sleep(1)
 
 		// sigil
-		await this.toggleShift(this.HOTKEY_SIGIL, this.HOTKEY_SIGIL_SHIFT)
+		await this.toggleShift(this.HOTKEY_SIGIL_2, this.HOTKEY_SIGIL_2_SHIFT)
 
 		if (!spells) {
 			await this.robot.keyToggle('space', 'down')
@@ -423,7 +439,7 @@ module.exports = function(robot) {
 			await this.robot.keyToggle('space', 'down')
 			await this.robot.keyToggle('space', 'up')
 			await this.toggleShift(this.HOTKEY_SPELL_3, this.HOTKEY_SPELL_3_SHIFT)
-			await this.sleep(this.CHANNELING_DELAY)
+			await this.sleep(this.HOTKEY_CHAR_STRONG ? this.CHANNELING_DELAY : this.CHANNELING_DELAY + 1)
 		}
 
 		if (spells && this.HOTKEY_CHAR_STRONG) {

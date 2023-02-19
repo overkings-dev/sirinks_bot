@@ -264,6 +264,7 @@
 		"portal_y": 425,
 		"stun_first_floor": 0,
 		"stun_second_floor": 1,
+		"second_floor_delay": 5,
 		"after_fight_move": 3
 	},
 
@@ -355,7 +356,7 @@
 		"stun_second_floor": 1,
 		"second_floor_delay": 15,
 		"first_floor_delay": 10,
-		"extra_steps_first_floor": 13,
+		"extra_steps_first_floor": 18,
 		"extra_steps_second_floor": 10
 	},
 
