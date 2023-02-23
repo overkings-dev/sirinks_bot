@@ -55,6 +55,8 @@
 	console.log('Sleep for 5 seconds')
 	await overkings.sleep(5)
 
+	// await overkings.infinite_teleport(4)
+
 	try {
 		console.log('Running Test: type 1')
 		await overkings.toggleShift('1')
@@ -64,9 +66,9 @@
 
 
 	if (isVerg) {
-		console.log('Started Verg at: ', new Date())
+		let start_time  = new Date()
+		
 			// Vergerland		--------------------------- 18 bosses
-		// ERIGE - KZ
 		if (overkings.HOTKEY_CHAR_STRONG) {
 			await overkings.teleport(4, 1)
 			await overkings.farmBoss(overkings.minga)
@@ -87,10 +89,10 @@
 		// ONSLAND
 		await overkings.farmBoss(overkings.borgar)
 
-		if (overkings.HOTKEY_CHAR_STRONG) {
+		// if (overkings.HOTKEY_CHAR_STRONG) {
 			await overkings.teleport(2, 1)
 			await overkings.farmBoss(overkings.irm)
-		}
+		// }
 
 		// UTSALA
 		await overkings.teleport(6, 1)
@@ -131,27 +133,25 @@
 
 		await overkings.teleport(1, 1)
 		await overkings.farmBoss(overkings.saam)
+
+		console.log('Started Verg at: ', start_time)
 		console.log('Finished Verg at: ', new Date())
 	}
 
 	if (isFiord) {
-		console.log('Started Fiord at: ', new Date())
-			// HARANGER FIORD 		------------------------------- 13 bosses
+		let start_time  = new Date()
+		
+			// HARANGER FIORD 		------------------------------- 13-2 bosses
 		//Hrogland
-		await overkings.teleport(2, 1)
-		await overkings.farmBoss(overkings.olfradi)
-
-		if (overkings.HOTKEY_CHAR_STRONG) {
-			await overkings.teleport(2, 1)
-			await overkings.farmBoss(overkings.kniaz)
-		}
-
 		await overkings.farmBoss(overkings.gorm)
+
+		await overkings.teleport(3, 1)
+		await overkings.farmBoss(overkings.vorfturm)
 
 		if (overkings.HOTKEY_CHAR_STRONG) {
 			await overkings.farmBoss(overkings.vergranda)
 
-			await overkings.farmBoss(overkings.nils)
+			// await overkings.farmBoss(overkings.nils)
 
 			// await overkings.farmBoss(overkings.erdhorn)
 		}
@@ -160,72 +160,76 @@
 		await overkings.teleport(1, 1)
 		await overkings.farmBoss(overkings.urdi)
 
-		await overkings.teleport(1, 1)
-		await overkings.farmBoss(overkings.ilding)
-
-		// Ruini
-		await overkings.teleport(3, 1)
-		await overkings.farmBoss(overkings.vorfturm)
-
 		await overkings.teleport(3, 1)
 		await overkings.farmBoss(overkings.brost)
+
+		await overkings.teleport(1, 1)
+		await overkings.farmBoss(overkings.ilding)
 
 		if (overkings.HOTKEY_CHAR_STRONG) {
 			await overkings.teleport(3, 1)
 			await overkings.farmBoss(overkings.alva)
 		}
 
+		if (overkings.HOTKEY_CHAR_STRONG) {
+			await overkings.teleport(2, 1)
+			await overkings.farmBoss(overkings.kniaz)
+		}
+
 		await overkings.teleport(3, 1)
 		await overkings.farmBoss(overkings.skriga)
 
-		// Zaliv
+		await overkings.teleport(2, 1)
+		await overkings.farmBoss(overkings.olfradi)
+
 		await overkings.teleport(4, 1)
 		await overkings.farmBoss(overkings.yarl)
+
+		console.log('Started Fiord at: ', start_time)
 		console.log('Finished Verg at: ', new Date())
 	}
 
 	if (isHeim) {
-		console.log('Started Heim at: ', new Date())
-			// HEIMSKRINGLA		------------------------------- 13 bosses
-		// Razlom
-		await overkings.farmBoss(overkings.ogg, 4)
-		await overkings.farmBoss(overkings.heo, 4)		
-
-		// Gorod Vetrov
-		await overkings.teleport(2, 1)
-		await overkings.farmBoss(overkings.smerla, 4)
-
-		await overkings.teleport(2, 1)
-		await overkings.farmBoss(overkings.meraban, 4)
-
-		// Drevo
-		await overkings.teleport(5, 1)
-		await overkings.farmBoss(overkings.baal, 4)
-
-		await overkings.teleport(5, 1)
-		await overkings.farmBoss(overkings.gorgelad, 4)
-
-		await overkings.teleport(5, 1)
-		await overkings.farmBoss(overkings.mardonius, 4)
+		let start_time  = new Date()
+		
+		// HEIMSKRINGLA		------------------------------- 12 bosses
 
 		await overkings.teleport(5, 1)
 		await overkings.farmBoss(overkings.marzuba, 4)
 
-		// Gorod Purgi
 		await overkings.teleport(3, 1)
-		await overkings.farmBoss(overkings.ogdenhag, 4)
+		await overkings.farmBoss(overkings.loghorn, 4)
 
-		await overkings.teleport(3, 1)
-		await overkings.farmBoss(overkings.cumamba, 4)
-
-		await overkings.teleport(3, 1)
-		await overkings.farmBoss(overkings.garmfuldi, 4)
+		await overkings.teleport(2, 1)
+		await overkings.farmBoss(overkings.smerla, 4)
 
 		await overkings.teleport(3, 1)
 		await overkings.farmBoss(overkings.jurda, 4)
 
+		await overkings.teleport(5, 1)
+		await overkings.farmBoss(overkings.mardonius, 4)
+
 		await overkings.teleport(3, 1)
-		await overkings.farmBoss(overkings.loghorn, 4)
+		await overkings.farmBoss(overkings.garmfuldi, 4)
+
+		await overkings.teleport(5, 1)
+		await overkings.farmBoss(overkings.gorgelad, 4)
+
+		await overkings.teleport(3, 1)
+		await overkings.farmBoss(overkings.ogdenhag, 4)
+
+		await overkings.teleport(2, 1)
+		await overkings.farmBoss(overkings.meraban, 4)
+
+		await overkings.teleport(3, 1)
+		await overkings.farmBoss(overkings.cumamba, 4)
+
+		await overkings.farmBoss(overkings.heo, 4)
+
+		await overkings.teleport(5, 1)
+		await overkings.farmBoss(overkings.baal, 4)
+
+		console.log('Started Heim at: ', start_time)
 		console.log('Finished Heim at: ', new Date())
 	}
 })();

@@ -167,7 +167,7 @@ module.exports = function(robot) {
 			this.robot.moveMouse(boss.mini_x, boss.mini_y)
 			this.robot.mouseClick()
 
-			await this.sleep(2)
+			await this.sleep(1)
 		} else {
 			console.log('Skip Mini Map')
 		}
@@ -184,7 +184,7 @@ module.exports = function(robot) {
 		console.log(`Location_confirm`)
 		await this.confirmClick(boss.confirm_x, boss.confirm_y)
 
-		await this.sleep(1.5)
+		await this.sleep(1)
 
 		console.log(`Difficulty_confirm`)
 
@@ -194,13 +194,13 @@ module.exports = function(robot) {
 			await this.confirmClick(this.location_normal.x, this.location_normal.y + 30)
 		}
 
-		await this.sleep(1)
+		await this.sleep(0.5)
 
 		let def_first_floor_steps = 14 + this.HOTKEY_EXTRA_STEPS
 		let steps_first_floor = boss.extra_steps_first_floor ? def_first_floor_steps + boss.extra_steps_first_floor : def_first_floor_steps
 		await this.move(steps_first_floor)
 
-		await this.sleep(1) // wait mobs to come
+		await this.sleep(0.5) // wait mobs to come
 
 		await this.fightFirstFloor(10, boss)
 
@@ -243,6 +243,15 @@ module.exports = function(robot) {
 
 		await this.sleep(5)
 
+		// switch to hand 2
+		this.robot.keyToggle('tab', 'down')
+		this.robot.keyToggle('tab', 'up')
+
+		// switch to hand 1
+		this.robot.keyToggle('tab', 'down')
+		this.robot.keyToggle('tab', 'up')
+		await this.sleep(0.25)
+		
 		await this.teleport(teleport_region, 1)
 		await this.sleep(5)
 
@@ -253,7 +262,7 @@ module.exports = function(robot) {
 		// switch to hand 1
 		this.robot.keyToggle('tab', 'down')
 		this.robot.keyToggle('tab', 'up')
-		await this.sleep(1)
+		await this.sleep(0.25)
 	}
 
 	this.teleport = async function(region_number, default_sleep = 0)
@@ -279,21 +288,66 @@ module.exports = function(robot) {
 		}
 	}
 
-	this.confirmClick = async function(x, y, double = false)
+	this.infinite_teleport = async function(safe_region)
+	{
+		let delay = 0.08
+		for (let i = 0; i < 5; i++) {
+			for (let j = 1; j <= 5; j++) {
+				try {
+					console.log(`Teleporting to ${j}`)
+
+					// TELEPORT COORDINATIONS from hotkeys.cfg
+					await this.toggleShift(this.HOTKEY_TELEPORT, this.HOTKEY_TELEPORT_SHIFT)
+					await this.sleep(delay)
+
+					let y = this.HOTKEY_TELEPORT_Y + this.HOTKEY_TELEPORT_GAP * j
+
+					await this.confirmClick(this.HOTKEY_TELEPORT_X, y, false, delay)
+					await this.sleep(delay)
+
+					// click TP
+					await this.confirmClick(this.HOTKEY_TELEPORT_CONFIRM_X, this.HOTKEY_TELEPORT_CONFIRM_Y, false, delay)
+					await this.sleep(delay)
+				} catch(e) {
+					console.log(e.message)
+					process.exit(1)
+				}
+			}
+		}
+
+		console.log(`Teleporting to ${safe_region}`)
+
+		// TELEPORT COORDINATIONS from hotkeys.cfg
+		await this.toggleShift(this.HOTKEY_TELEPORT, this.HOTKEY_TELEPORT_SHIFT)
+		await this.sleep(delay)
+
+		let y = this.HOTKEY_TELEPORT_Y + this.HOTKEY_TELEPORT_GAP * safe_region
+
+		await this.confirmClick(this.HOTKEY_TELEPORT_X, y, false, delay)
+		await this.sleep(delay)
+
+		// click TP
+		await this.confirmClick(this.HOTKEY_TELEPORT_CONFIRM_X, this.HOTKEY_TELEPORT_CONFIRM_Y, false, delay)
+		await this.sleep(delay)
+
+		process.exit(1)
+	}
+
+	this.confirmClick = async function(x, y, double = false, default_sleep = 0.25)
 	{
 		this.robot.moveMouse(x, y)
-		await this.sleep(0.5)
+		await this.sleep(default_sleep)
 		this.robot.mouseToggle("down")
-		await this.sleep(0.5)
+		await this.sleep(default_sleep)
 		this.robot.moveMouse(x - 5, y + 5)
 		this.robot.mouseToggle("up")
 		this.robot.mouseClick()	
 
 		if (double) {
 			this.robot.moveMouse(x, y)
-			await this.sleep(0.5)
+			await this.sleep(default_sleep)
 			this.robot.mouseToggle("down")
-			await this.sleep(0.5)
+			await this.sleep(default_sleep)
 			this.robot.moveMouse(x - 5, y + 5)
 			this.robot.mouseToggle("up")
 			this.robot.mouseClick()	
